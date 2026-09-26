@@ -1,0 +1,213 @@
+/* ============================================================
+   Habitara — Widget de reservas
+   Usa las variables de habitara-style.css (--sand, --clay, --moss,
+   --bark, --cream, --text, --muted, --white). Si el widget se carga
+   en una página sin ese stylesheet, los valores de respaldo abajo
+   mantienen la misma paleta.
+   ============================================================ */
+.hb-widget {
+  --hb-sand:  var(--sand, #f5f0e8);
+  --hb-cream: var(--cream, #fdfaf4);
+  --hb-clay:  var(--clay, #c9b89a);
+  --hb-moss:  var(--moss, #5a6650);
+  --hb-bark:  var(--bark, #3b2f20);
+  --hb-warm:  var(--warm, #e8dece);
+  --hb-text:  var(--text, #2c2318);
+  --hb-muted: var(--muted, #7a6f63);
+  --hb-white: var(--white, #ffffff);
+
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  color: var(--hb-text);
+  background: var(--hb-white);
+  border: 1px solid var(--hb-warm);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.hb-widget * { box-sizing: border-box; }
+
+.hb-widget h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+}
+
+.hb-properties {
+  display: flex;
+  overflow-x: auto;
+  background: var(--hb-bark);
+}
+.hb-property-tab {
+  flex: 1 0 auto;
+  padding: 15px 24px;
+  background: transparent;
+  border: none;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.55);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  white-space: nowrap;
+}
+.hb-property-tab:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.85); }
+.hb-property-tab.active {
+  background: rgba(255,255,255,0.1);
+  color: var(--hb-white);
+}
+
+.hb-rooms {
+  display: flex;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--hb-warm);
+}
+.hb-room-tab {
+  flex: 1 0 auto;
+  padding: 18px 24px;
+  background: var(--hb-sand);
+  border: none;
+  border-right: 1px solid var(--hb-warm);
+  color: var(--hb-muted);
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  white-space: nowrap;
+}
+.hb-room-tab:hover { background: var(--hb-warm); }
+.hb-room-tab.active {
+  background: var(--hb-cream);
+  color: var(--hb-bark);
+  box-shadow: inset 0 -2px 0 var(--hb-moss);
+}
+
+.hb-body { padding: 48px; }
+
+.hb-month-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+.hb-month-nav button {
+  background: transparent;
+  border: 1px solid var(--hb-clay);
+  border-radius: 50%;
+  width: 34px; height: 34px;
+  cursor: pointer;
+  font-size: 15px;
+  color: var(--hb-bark);
+  transition: background 0.3s, color 0.3s;
+}
+.hb-month-nav button:hover:not(:disabled) { background: var(--hb-moss); color: var(--hb-white); border-color: var(--hb-moss); }
+.hb-month-nav button:disabled { opacity: .3; cursor: default; }
+.hb-month-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  color: var(--hb-bark);
+  text-transform: capitalize;
+}
+
+.hb-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+.hb-dow {
+  text-align: center;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--hb-muted);
+  padding-bottom: 10px;
+}
+.hb-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--hb-text);
+  cursor: pointer;
+  background: var(--hb-sand);
+  border: 1px solid transparent;
+  user-select: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+.hb-day.hb-empty { background: transparent; cursor: default; }
+.hb-day.hb-past { background: transparent; color: var(--hb-clay); cursor: default; }
+.hb-day.hb-blocked {
+  background: var(--hb-warm);
+  color: var(--hb-muted);
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+.hb-day.hb-selectable:hover { border-color: var(--hb-moss); }
+.hb-day.hb-in-range { background: var(--hb-warm); }
+.hb-day.hb-range-edge {
+  background: var(--hb-moss);
+  color: var(--hb-white);
+}
+
+.hb-summary {
+  margin-top: 36px;
+  padding-top: 36px;
+  border-top: 1px solid var(--hb-warm);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 48px;
+  align-items: flex-start;
+}
+.hb-summary-info { flex: 1 1 220px; font-size: 14px; line-height: 1.8; color: var(--hb-muted); }
+.hb-summary-info h4 { font-size: 26px; color: var(--hb-bark); margin-bottom: 4px; }
+
+.hb-form { flex: 1 1 280px; display: grid; gap: 12px; }
+.hb-form input {
+  padding: 12px 14px;
+  border: 1px solid var(--hb-clay);
+  background: var(--hb-cream);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  font-size: 14px;
+  color: var(--hb-text);
+  width: 100%;
+}
+.hb-form input::placeholder { color: var(--hb-muted); }
+.hb-form button {
+  margin-top: 6px;
+  background: var(--hb-moss);
+  color: var(--hb-white);
+  border: none;
+  padding: 15px 32px;
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.hb-form button:hover:not(:disabled) { background: var(--hb-bark); }
+.hb-form button:disabled { opacity: .5; cursor: default; }
+
+.hb-note {
+  font-size: 12px;
+  color: var(--hb-muted);
+  margin-top: 12px;
+}
+
+.hb-message {
+  margin-top: 18px;
+  padding: 16px 18px;
+  font-size: 14px;
+  border-left: 3px solid;
+}
+.hb-message.hb-success { background: var(--hb-sand); border-color: var(--hb-moss); color: var(--hb-bark); }
+.hb-message.hb-error   { background: var(--hb-sand); border-color: #9a4a3a; color: #7a2e1b; }
+
+@media (max-width: 640px) {
+  .hb-body { padding: 28px 20px; }
+  .hb-summary { flex-direction: column; }
+}

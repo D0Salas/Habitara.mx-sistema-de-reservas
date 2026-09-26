@@ -1,0 +1,6 @@
+api/db.config.php
+api/staff/jwt_secret.php
+/vendor/
+coverage-report/
+coverage.xml
+.phpunit.result.cache

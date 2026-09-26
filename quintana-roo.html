@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quintana Roo | Habitara</title>
+  <meta name="description" content="Descubre nuestras propiedades en Quintana Roo. Entre selva y mar Caribe, el equilibrio perfecto entre descanso y aventura." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="habitara-style.css" />
+  <link rel="stylesheet" href="destino-style.css" />
+  <link rel="icon" type="image/svg+xml" href="images/logo-nav.svg" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="mainNav" class="scrolled">
+    <a href="index.html" class="nav-logo">
+      <img src="images/logo-nav.svg" alt="Habitara" class="nav-logo-img" />
+    </a>
+    <a href="#reservar" class="nav-cta">Reservar</a>
+    <button class="hamburger" id="menuBtn" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- MENÚ MÓVIL -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="closeMenu" aria-label="Cerrar menú">×</button>
+    <a href="index.html">Inicio</a>
+    <a href="index.html#destinos">Destinos</a>
+    <a href="index.html#nosotros">Nosotros</a>
+    <a href="#contacto">Contacto</a>
+    <a href="#reservar">Reservar</a>
+  </div>
+
+  <section class="dest-page-hero">
+    <div class="dest-slideshow" id="slideshow-qr">
+      <div class="dest-slide active" style="background-image: url('images/quintanaroo/qr-2.jpg')"></div>
+      <div class="dest-slide" style="background-image: url('images/quintanaroo/qr-3.jpg')"></div>
+      <div class="dest-slide" style="background-image: url('images/quintanaroo/qr-4.jpg')"></div>
+      <div class="dest-slide" style="background-image: url('images/quintanaroo/qr-5.jpg')"></div>
+      <div class="dest-slide" style="background-image: url('images/quintanaroo/qr-6.jpg')"></div>
+    </div>
+    <div class="dest-overlay"></div>
+    <div class="dest-page-hero-content">
+      <p class="dest-label">Descubre</p>
+      <h1>Quintana Roo</h1>
+    </div>
+  </section>
+
+  <section class="dest-info fade-in">
+    <div class="dest-info-text">
+      <p class="section-label">Quintana Roo, México</p>
+      <h2>Entre selva y mar Caribe</h2>
+      <p>Quintana Roo es el equilibrio perfecto entre descanso y aventura. Nuestras propiedades te ubican en el corazón de uno de los destinos más vibrantes de México.</p>
+      <p>Espacios diseñados con calidez y detalle para que cada momento de tu estancia sea memorable, ya sea que vengas a explorar o simplemente a descansar.</p>
+    </div>
+    <div class="dest-amenities fade-in">
+      <div class="dest-amenity">Cocina equipada</div>
+      <div class="dest-amenity">Sala de estar</div>
+      <div class="dest-amenity">Recámara privada</div>
+      <div class="dest-amenity">Baño completo</div>
+      <div class="dest-amenity">Smart TV</div>
+      <div class="dest-amenity">WiFi de alta velocidad</div>
+      <div class="dest-amenity">Aire acondicionado</div>
+      <div class="dest-amenity">Área de trabajo</div>
+      <div class="dest-amenity">Ropa de cama incluida</div>
+      <div class="dest-amenity">Check-in flexible</div>
+    </div>
+  </section>
+
+  <section class="dest-gallery fade-in">
+    <h2>Galería</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item"><img src="images/quintanaroo/qr-2.jpg" alt="Recámara Quintana Roo" loading="lazy" /></div>
+      <div class="gallery-item"><img src="images/quintanaroo/qr-3.jpg" alt="Cocina" loading="lazy" /></div>
+      <div class="gallery-item"><img src="images/quintanaroo/qr-4.jpg" alt="Sala de estar" loading="lazy" /></div>
+      <div class="gallery-item"><img src="images/quintanaroo/qr-5.jpg" alt="Detalle exterior" loading="lazy" /></div>
+      <div class="gallery-item"><img src="images/quintanaroo/qr-6.jpg" alt="Ambiente" loading="lazy" /></div>
+    </div>
+  </section>
+
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" id="lightboxClose">×</button>
+    <button class="lightbox-arrow lightbox-prev" id="lightboxPrev" aria-label="Foto anterior">‹</button>
+    <img id="lightboxImg" src="" alt="" />
+    <button class="lightbox-arrow lightbox-next" id="lightboxNext" aria-label="Foto siguiente">›</button>
+    <div class="lightbox-counter" id="lightboxCounter"></div>
+  </div>
+
+  <section class="dest-info fade-in" id="reservar" style="display:block;">
+    <p class="section-label">Reserva directo</p>
+    <h2 style="margin-bottom: 32px;">Elige tus fechas</h2>
+    <div id="hb-booking-qroo"></div>
+  </section>
+  <link rel="stylesheet" href="widget/booking-calendar.css" />
+  <script src="widget/booking-calendar.js"></script>
+  <script>
+    HabitaraBooking.init({
+      container: '#hb-booking-qroo',
+      apiBase: 'api',
+      propertyId: 'casa-quintana-roo'
+    });
+  </script>
+
+  <section class="contact-section" id="contacto">
+    <div class="contact">
+      <div class="contact-info fade-in">
+        <h2>¿Listo para reservar?</h2>
+        <p>Escríbenos y con gusto te orientamos para que tu estancia en Quintana Roo sea perfecta.</p>
+        <div class="contact-detail">
+          <a href="tel:+529931117133">+52 993 111 7133</a>
+          <a href="mailto:contacto@habitara.mx">contacto@habitara.mx</a>
+        </div>
+        <div class="social-row">
+          <a href="https://www.instagram.com/habitara_mx" target="_blank" rel="noopener" aria-label="Instagram">in</a>
+          <a href="https://www.facebook.com/share/1Dodgs87RV/" target="_blank" rel="noopener" aria-label="Facebook">f</a>
+          <a href="https://www.tiktok.com/@habitara_mx" target="_blank" rel="noopener" aria-label="TikTok">tt</a>
+          <a href="https://wa.me/529931117133" target="_blank" rel="noopener" aria-label="WhatsApp">wa</a>
+        </div>
+      </div>
+      <form class="contact-form fade-in">
+        <div class="form-field">
+          <label for="name">Nombre</label>
+          <input type="text" id="name" name="name" placeholder="Tu nombre" required />
+        </div>
+        <div class="form-field">
+          <label for="phone">Teléfono</label>
+          <input type="tel" id="phone" name="phone" placeholder="+52 000 000 0000" />
+        </div>
+        <div class="form-field">
+          <label for="message">Mensaje</label>
+          <textarea id="message" name="message" placeholder="Fechas, número de personas, preguntas..." required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Enviar</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="/politica-de-privacidad">Política de Privacidad</a>
+      <a href="/terminos">Términos y Condiciones</a>
+      <a href="/accesibilidad">Accesibilidad</a>
+      <a href="/reembolso">Política de Reembolso</a>
+    </div>
+    <p class="footer-copy">© 2025 Habitara. Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="habitara-main.js"></script>
+  <script src="lightbox-gallery.js"></script>
+
+</body>
+</html>

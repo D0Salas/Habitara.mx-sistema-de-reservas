@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Bitácora de Mantenimiento — Habitara</title>
+<style>
+  body { font-family: 'Jost', sans-serif; background: #f5f0e8; margin: 0; padding: 48px 24px; color: #2c2318; }
+  .wrap { max-width: 780px; margin: 0 auto; }
+  h1 { font-family: 'Cormorant Garamond', serif; font-size: 32px; color: #3b2f20; margin-bottom: 4px; }
+  .sub { color: #7a6f63; font-size: 13px; margin-bottom: 28px; }
+  .card { background: #fdfaf4; border: 1px solid #e8dece; padding: 28px; }
+  label { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; color: #7a6f63; margin: 14px 0 6px; }
+  input, select, textarea { width: 100%; box-sizing: border-box; padding: 10px 12px; border: 1px solid #c9b89a; font-size: 14px; font-family: inherit; }
+  button { margin-top: 18px; padding: 11px 20px; background: #5a6650; color: #fff; border: none; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; }
+  button:hover { background: #3b2f20; }
+  button.danger { background: transparent; border: 1px solid #9a4a3a; color: #9a4a3a; }
+  button.danger:hover { background: #f6dfd8; }
+  .error { background: #f6dfd8; color: #7a2e1b; padding: 10px 14px; font-size: 13px; margin-bottom: 14px; }
+  .topbar { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 24px; }
+  .who { font-size: 13px; color: #7a6f63; }
+  .logout { font-size: 12px; color: #9a4a3a; cursor: pointer; text-decoration: underline; }
+  table { width: 100%; border-collapse: collapse; margin-top: 24px; background: #fdfaf4; border: 1px solid #e8dece; }
+  th, td { text-align: left; padding: 10px 12px; font-size: 13px; border-bottom: 1px solid #e8dece; }
+  th { text-transform: uppercase; font-size: 10.5px; color: #7a6f63; background: #f5f0e8; font-weight: 400; }
+  .badge { padding: 3px 8px; font-size: 11px; border-radius: 2px; }
+  .badge-alta { background: #f6dfd8; color: #7a2e1b; }
+  .badge-media { background: #fbead0; color: #8a5a12; }
+  .badge-baja { background: #e4f0de; color: #2f5227; }
+  .status-abierto { color: #9a4a3a; }
+  .status-en_proceso { color: #8a5a12; }
+  .status-cerrado { color: #2f5227; }
+  select.status-select { width: auto; padding: 4px 6px; font-size: 12px; }
+  #app-hidden { display: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Bitácora de Mantenimiento</h1>
+  <p class="sub">Módulo interno del staff — reporta y da seguimiento a incidencias de los cuartos.</p>
+
+  <div id="login-view" class="card">
+    <div id="login-error"></div>
+    <label>Usuario</label>
+    <input id="login-username" type="text" autocomplete="username">
+    <label>Contraseña</label>
+    <input id="login-password" type="password" autocomplete="current-password">
+    <button id="login-btn">Entrar</button>
+  </div>
+
+  <div id="app-hidden">
+    <div class="topbar">
+      <div class="who">Sesión: <strong id="who-name"></strong> (<span id="who-role"></span>)</div>
+      <div class="logout" id="logout-btn">Cerrar sesión</div>
+    </div>
+
+    <div class="card">
+      <h3 style="margin-top:0; font-family:'Cormorant Garamond',serif; font-size:20px;">Reportar incidencia</h3>
+      <div id="create-error"></div>
+      <label>Cuarto</label>
+      <select id="room-select"></select>
+      <label>Título</label>
+      <input id="report-title" type="text" placeholder="Ej. Aire acondicionado no enfría">
+      <label>Descripción</label>
+      <textarea id="report-desc" rows="3"></textarea>
+      <label>Prioridad</label>
+      <select id="report-priority">
+        <option value="baja">Baja</option>
+        <option value="media" selected>Media</option>
+        <option value="alta">Alta</option>
+      </select>
+      <button id="create-btn">Crear reporte</button>
+    </div>
+
+    <table id="reports-table">
+      <thead>
+        <tr><th>Cuarto</th><th>Título</th><th>Prioridad</th><th>Reportó</th><th>Estado</th><th></th></tr>
+      </thead>
+      <tbody id="reports-body"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+(function () {
+  const API = '../api/staff';
+  let token = null;
+  let role = null;
+
+  const $ = (id) => document.getElementById(id);
+
+  function showError(el, msg) {
+    el.innerHTML = msg ? `<div class="error">${msg}</div>` : '';
+  }
+
+  async function api(path, opts = {}) {
+    const headers = opts.headers || {};
+    if (token) headers['Authorization'] = 'Bearer ' + token;
+    if (opts.body) headers['Content-Type'] = 'application/json';
+    const res = await fetch(API + path, { ...opts, headers });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Error desconocido');
+    return data;
+  }
+
+  $('login-btn').onclick = async () => {
+    showError($('login-error'), '');
+    try {
+      const data = await api('/login.php', {
+        method: 'POST',
+        body: JSON.stringify({ username: $('login-username').value, password: $('login-password').value }),
+      });
+      token = data.token;
+      role = data.role;
+      sessionStorage.setItem('hb_staff_token', token);
+      sessionStorage.setItem('hb_staff_role', role);
+      sessionStorage.setItem('hb_staff_name', data.full_name);
+      enterApp(data.full_name, role);
+    } catch (e) {
+      showError($('login-error'), e.message);
+    }
+  };
+
+  $('logout-btn').onclick = () => {
+    sessionStorage.removeItem('hb_staff_token');
+    token = null;
+    document.getElementById('app-hidden').style.display = 'none';
+    document.getElementById('login-view').style.display = 'block';
+  };
+
+  $('create-btn').onclick = async () => {
+    showError($('create-error'), '');
+    try {
+      await api('/reports.php', {
+        method: 'POST',
+        body: JSON.stringify({
+          room_id: $('room-select').value,
+          title: $('report-title').value,
+          description: $('report-desc').value,
+          priority: $('report-priority').value,
+        }),
+      });
+      $('report-title').value = '';
+      $('report-desc').value = '';
+      loadReports();
+    } catch (e) {
+      showError($('create-error'), e.message);
+    }
+  };
+
+  async function loadRooms() {
+    const data = await api('/rooms.php');
+    $('room-select').innerHTML = data.rooms.map(r =>
+      `<option value="${r.id}">${r.property_name} — ${r.room_name}</option>`
+    ).join('');
+  }
+
+  async function loadReports() {
+    const data = await api('/reports.php');
+    const isAdmin = role === 'admin';
+    $('reports-body').innerHTML = data.reports.map(r => `
+      <tr>
+        <td>${r.room_name}</td>
+        <td>${r.title}</td>
+        <td><span class="badge badge-${r.priority}">${r.priority}</span></td>
+        <td>${r.reported_by_name}</td>
+        <td class="status-${r.status}">${r.status.replace('_',' ')}</td>
+        <td>
+          ${isAdmin ? `
+            <select class="status-select" data-id="${r.id}">
+              <option value="abierto" ${r.status === 'abierto' ? 'selected' : ''}>Abierto</option>
+              <option value="en_proceso" ${r.status === 'en_proceso' ? 'selected' : ''}>En proceso</option>
+              <option value="cerrado" ${r.status === 'cerrado' ? 'selected' : ''}>Cerrado</option>
+            </select>
+            <button class="danger" data-delete="${r.id}" style="margin-top:0;">Eliminar</button>
+          ` : ''}
+        </td>
+      </tr>
+    `).join('');
+
+    if (isAdmin) {
+      document.querySelectorAll('.status-select').forEach(sel => {
+        sel.onchange = async () => {
+          await api('/update_status.php', { method: 'POST', body: JSON.stringify({ id: sel.dataset.id, status: sel.value }) });
+          loadReports();
+        };
+      });
+      document.querySelectorAll('[data-delete]').forEach(btn => {
+        btn.onclick = async () => {
+          if (!confirm('¿Eliminar este reporte?')) return;
+          await api('/delete_report.php', { method: 'POST', body: JSON.stringify({ id: btn.dataset.delete }) });
+          loadReports();
+        };
+      });
+    }
+  }
+
+  function enterApp(name, r) {
+    $('who-name').textContent = name;
+    $('who-role').textContent = r;
+    document.getElementById('login-view').style.display = 'none';
+    document.getElementById('app-hidden').style.display = 'block';
+    loadRooms();
+    loadReports();
+  }
+
+  // Si ya había una sesión activa en este navegador (sessionStorage), la retoma.
+  const savedToken = sessionStorage.getItem('hb_staff_token');
+  if (savedToken) {
+    token = savedToken;
+    role = sessionStorage.getItem('hb_staff_role');
+    enterApp(sessionStorage.getItem('hb_staff_name'), role);
+  }
+})();
+</script>
+</body>
+</html>

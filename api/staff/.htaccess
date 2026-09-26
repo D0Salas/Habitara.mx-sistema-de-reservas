@@ -1,0 +1,14 @@
+# Por defecto, muchas configuraciones de Apache NO pasan el header
+# "Authorization" a PHP (por seguridad histórica). Esto lo restaura,
+# ya que el módulo de la bitácora de mantenimiento lo necesita para
+# recibir el token JWT en cada petición.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTP:Authorization} ^(.*)
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%1]
+</IfModule>
+
+# Alternativa para Apache 2.4.13+ si mod_rewrite no está disponible.
+<IfModule !mod_rewrite.c>
+    CGIPassAuth On
+</IfModule>

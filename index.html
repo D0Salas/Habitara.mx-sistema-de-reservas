@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inicio | Habitara</title>
+  <meta name="description" content="Espacios privados para tu descanso. Áreas comunes para desconectar. Vive la experiencia Habitara a tu propio ritmo." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="habitara-style.css" />
+  <link rel="icon" type="image/svg+xml" href="images/logo-nav.svg" />
+</head>
+<body>
+    
+  <nav id="mainNav">
+    <a href="#" class="nav-logo">
+      <img src="images/logo-nav.svg" alt="Habitara" class="nav-logo-img" />
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#sobre">Nosotros</a></li>
+      <li><a href="#destinos">Destinos</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+
+    <a href="#contacto" class="nav-cta">Reservar</a>
+
+    <button class="hamburger" id="menuBtn" aria-label="Abrir menú">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" id="closeMenu" aria-label="Cerrar menú">×</button>
+    <a href="#">Inicio</a>
+    <a href="#sobre">Nosotros</a>
+    <a href="#destinos">Destinos</a>
+    <a href="#contacto">Contacto</a>
+    <a href="#contacto">Reservar</a>
+  </div>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+
+    <div class="hero-content">
+      <p class="hero-tagline">Tu hogar en cada destino</p>
+      <img src="images/logo-hero.svg" alt="Habitara" class="hero-logo" />
+      <div class="hero-divider"></div>
+      <a href="#destinos" class="hero-cta">Descubrir</a>
+    </div>
+
+  </section>
+
+  <section class="sobre-habitara fade-in" id="sobre">
+    <div class="sobre-inner">
+      <p class="section-label">Sobre Habitara</p>
+      <h2>Más que una estancia, una experiencia</h2>
+      <p>En HABITARA creamos y gestionamos espacios diseñados para habitarse con comodidad, orden y confianza.</p>
+      <p>Acompañamos a huéspedes que buscan alojamiento flexible y bien ubicado, así como a propietarios que desean transformar su inmueble en una operación profesional, cuidada y rentable.</p>
+      <p>Conoce nuestros servicios y descubre cómo podemos ayudarte.</p>
+    </div>
+  </section>
+
+  <section class="intro fade-in">
+    <p class="section-label">Bienvenido</p>
+    <h2>Espacios que invitan a quedarse</h2>
+    <p>Espacios privados para tu descanso. Áreas comunes para desconectar. Vive la experiencia Habitara a tu propio ritmo.</p>
+  </section>
+
+  <section class="destinations" id="destinos">
+
+    <div class="destination fade-in">
+      <div class="dest-slideshow" id="slideshow-qr">
+        <div class="dest-slide active" style="background-image: url('images/quintanaroo/qr-2.jpg')"></div>
+        <div class="dest-slide" style="background-image: url('images/quintanaroo/qr-3.jpg')"></div>
+        <div class="dest-slide" style="background-image: url('images/quintanaroo/qr-4.jpg')"></div>
+        <div class="dest-slide" style="background-image: url('images/quintanaroo/qr-5.jpg')"></div>
+        <div class="dest-slide" style="background-image: url('images/quintanaroo/qr-6.jpg')"></div>
+      </div>
+      <div class="dest-overlay"></div>
+      <div class="dest-content">
+        <p class="dest-label">Descubre</p>
+        <h3>Quintana Roo</h3>
+        <p>Entre selva y mar Caribe, Quintana Roo es el equilibrio perfecto entre descanso y aventura.</p>
+        <a href="quintana-roo.html" class="dest-link">Ver más</a>
+      </div>
+    </div>
+
+    <div class="destination fade-in" style="transition-delay: 0.15s">
+      <div class="dest-slideshow" id="slideshow-tab">
+        <div class="dest-slide active" style="background-image: url('images/tabasco/tab-1.jpg')"></div>
+        <div class="dest-slide" style="background-image: url('images/tabasco/tab-2.jpg')"></div>
+        <div class="dest-slide" style="background-image: url('images/tabasco/tab-3.jpg')"></div>
+        <div class="dest-slide" style="background-image: url('images/tabasco/tab-4.jpg')"></div>
+        <div class="dest-slide" style="background-image: url('images/tabasco/tab-5.jpg')"></div>
+        <div class="dest-slide" style="background-image: url('images/tabasco/tab-6.jpg')"></div>
+      </div>
+      <div class="dest-overlay"></div>
+      <div class="dest-content">
+        <p class="dest-label">Descubre</p>
+        <h3>Tabasco</h3>
+        <p>Desde el corazón de Villahermosa, descubre la esencia natural de Tabasco.</p>
+        <a href="tabasco.html" class="dest-link">Ver más</a>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="values" id="nosotros">
+
+    <div class="values-header fade-in">
+      <p class="section-label">Nuestros Valores</p>
+      <h2>Nuestra Visión</h2>
+    </div>
+
+    <div class="values-grid">
+
+      <div class="value-card fade-in">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        </div>
+        <p class="value-tag">Calidad</p>
+        <h3>Excelencia Garantizada</h3>
+        <p>Nos comprometemos a ofrecer alojamientos de alta calidad que cumplan con tus expectativas. Cada propiedad está cuidadosamente seleccionada para brindarte una experiencia inigualable.</p>
+      </div>
+
+      <div class="value-card fade-in" style="transition-delay: 0.12s">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2"/>
+          </svg>
+        </div>
+        <p class="value-tag">Atención</p>
+        <h3>Servicio Personalizado</h3>
+        <p>Nuestro equipo se dedica a proporcionarte un servicio excepcional en cada paso de tu viaje. Estamos aquí para responder a tus necesidades y garantizar tu descanso sin preocupaciones.</p>
+      </div>
+
+      <div class="value-card fade-in" style="transition-delay: 0.24s">
+        <div class="value-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <p class="value-tag">Confianza</p>
+        <h3>Transparencia Total</h3>
+        <p>Nos enorgullecemos de nuestra honestidad y transparencia en todas nuestras operaciones. Creemos en construir relaciones sólidas basadas en la confianza mutua y la integridad.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="testimonial fade-in">
+    <blockquote>
+      Nos encantó nuestra estancia en Habitara. La casa era hermosa y la ubicación perfecta. Definitivamente volveremos.
+    </blockquote>
+    <p class="testimonial-author">María Fernández</p>
+  </section>
+
+  <section class="contact-section" id="contacto">
+    <div class="contact">
+
+      <div class="contact-info fade-in">
+        <h2>¿En qué podemos ayudarte?</h2>
+        <p>Escríbenos y con gusto te orientamos para que tu próxima estancia sea perfecta.</p>
+
+        <div class="contact-detail">
+          <a href="tel:+529931117133">+52 993 111 7133</a>
+          <a href="mailto:contacto@habitara.mx">contacto@habitara.mx</a>
+        </div>
+
+        <div class="social-row">
+          <a href="https://www.instagram.com/habitara_mx" target="_blank" rel="noopener" aria-label="Instagram">in</a>
+          <a href="https://www.facebook.com/share/1Dodgs87RV/" target="_blank" rel="noopener" aria-label="Facebook">f</a>
+          <a href="https://www.tiktok.com/@habitara_mx" target="_blank" rel="noopener" aria-label="TikTok">tt</a>
+          <a href="https://wa.me/529931117133" target="_blank" rel="noopener" aria-label="WhatsApp">wa</a>
+        </div>
+      </div>
+
+      <form class="contact-form fade-in">
+        <div class="form-field">
+          <label for="name">Nombre</label>
+          <input type="text" id="name" name="name" placeholder="Tu nombre" required />
+        </div>
+        <div class="form-field">
+          <label for="phone">Teléfono</label>
+          <input type="tel" id="phone" name="phone" placeholder="+52 000 000 0000" />
+        </div>
+        <div class="form-field">
+          <label for="message">Mensaje</label>
+          <textarea id="message" name="message" placeholder="¿En qué podemos ayudarte?" required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Enviar</button>
+      </form>
+
+    </div>
+  </section>
+
+  <footer>
+
+    <div class="footer-links">
+      <a href="/politica-de-privacidad">Política de Privacidad</a>
+      <a href="/terminos">Términos y Condiciones</a>
+      <a href="/accesibilidad">Accesibilidad</a>
+      <a href="/reembolso">Política de Reembolso</a>
+    </div>
+
+    <p class="footer-copy">© 2025 Habitara. Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="habitara-main.js"></script>
+</body>
+</html>
