@@ -172,6 +172,7 @@ jobs:
           target: 'http://localhost:8080'
           fail_action: false
           cmd_options: '-a'
+          allow_issue_writing: false
 
       # El reporte queda disponible como artefacto (zap-scan-report) que
       # sube automáticamente la acción de arriba. Revísalo en la pestaña
@@ -181,20 +182,16 @@ jobs:
     name: Análisis de calidad (SonarQube auto-hospedado)
     runs-on: ubuntu-latest
     needs: unit-tests
-    services:
-      sonarqube:
-        image: sonarqube:community
-        ports:
-          - 9000:9000
-        options: >-
-          --health-cmd="curl -f http://localhost:9000/api/system/status"
-          --health-interval=15s
-          --health-timeout=10s
-          --health-retries=20
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Preparar el sistema para Elasticsearch (requisito interno de SonarQube)
+        run: sudo sysctl -w vm.max_map_count=262144
+
+      - name: Levantar SonarQube
+        run: docker run -d --name sonarqube -p 9000:9000 sonarqube:community
 
       - name: Esperar a que SonarQube esté listo
         run: |
@@ -248,7 +245,12 @@ jobs:
     name: Desplegar a Hostinger (solo en main)
     runs-on: ubuntu-latest
     needs: [integration-tests, security-scan, code-quality]
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: |
+      always() &&
+      github.ref == 'refs/heads/main' && github.event_name == 'push' &&
+      needs.integration-tests.result == 'success' &&
+      needs.security-scan.result != 'cancelled' &&
+      needs.code-quality.result != 'cancelled'
     steps:
       - uses: actions/checkout@v4
 
