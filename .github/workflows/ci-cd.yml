@@ -166,18 +166,21 @@ jobs:
           php -S 0.0.0.0:8080 &
           sleep 3
 
-      - name: Escaneo base de OWASP ZAP
-        uses: zaproxy/action-baseline@v0.12.0
-        with:
-          target: 'http://localhost:8080'
-          fail_action: false
-          cmd_options: '-a'
-          allow_issue_writing: false
-          artifact_name: 'zap-scan-report'
+      - name: Escaneo base de OWASP ZAP (docker directo, sin subida automática rota)
+        run: |
+          mkdir -p zap-report
+          docker run --rm --network host \
+            -v "$(pwd)/zap-report:/zap/wrk/:rw" \
+            -t ghcr.io/zaproxy/zaproxy:stable \
+            zap-baseline.py -t http://localhost:8080 -a \
+            -r zap-report.html -J zap-report.json || true
 
-      # El reporte queda disponible como artefacto (zap-scan-report) que
-      # sube automáticamente la acción de arriba. Revísalo en la pestaña
-      # "Summary" de la ejecución del workflow en GitHub.
+      - name: Subir el reporte de ZAP como artefacto
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-scan-report
+          path: zap-report/
 
   code-quality:
     name: Análisis de calidad (SonarQube auto-hospedado)
@@ -218,15 +221,15 @@ jobs:
           curl -s -u ${{ steps.sonartoken.outputs.token }}: -X POST \
             "http://localhost:9000/api/projects/create?project=habitara&name=Habitara" || true
 
-      - name: Analizar el código con sonar-scanner
-        uses: sonarsource/sonarqube-scan-action@v3
-        env:
-          SONAR_HOST_URL: http://localhost:9000
-          SONAR_TOKEN: ${{ steps.sonartoken.outputs.token }}
-        with:
-          args: >
-            -Dsonar.projectKey=habitara
-            -Dsonar.sources=.
+      - name: Analizar el código con sonar-scanner (docker directo, red compartida con el host)
+        run: |
+          docker run --rm --network host \
+            -e SONAR_HOST_URL=http://localhost:9000 \
+            -e SONAR_TOKEN=${{ steps.sonartoken.outputs.token }} \
+            -v "$(pwd):/usr/src" \
+            sonarsource/sonar-scanner-cli \
+            -Dsonar.projectKey=habitara \
+            -Dsonar.sources=. \
             -Dsonar.exclusions=**/vendor/**,**/coverage-report/**,**/images/**
 
       - name: Descargar las métricas (deuda técnica, code smells, etc.)
