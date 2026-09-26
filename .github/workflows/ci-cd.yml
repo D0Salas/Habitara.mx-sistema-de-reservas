@@ -206,7 +206,7 @@ jobs:
       - name: Generar token de análisis
         id: sonartoken
         run: |
-          curl -s -u admin:admin -X POST "http://localhost:9000/api/authentication/change_password" \
+          curl -s -u admin:admin -X POST "http://localhost:9000/api/users/change_password" \
             --data-urlencode "login=admin" --data-urlencode "previousPassword=admin" --data-urlencode "password=Ci-Pass-123!" || true
           RESPONSE=$(curl -s -u admin:Ci-Pass-123! -X POST "http://localhost:9000/api/user_tokens/generate" --data-urlencode "name=ci-token-$(date +%s)")
           TOKEN=$(echo "$RESPONSE" | python3 -c "import json,sys; print(json.load(sys.stdin)['token'])")
