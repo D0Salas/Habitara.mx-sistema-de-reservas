@@ -173,6 +173,7 @@ jobs:
           fail_action: false
           cmd_options: '-a'
           allow_issue_writing: false
+          artifact_name: 'zap-scan-report'
 
       # El reporte queda disponible como artefacto (zap-scan-report) que
       # sube automáticamente la acción de arriba. Revísalo en la pestaña
